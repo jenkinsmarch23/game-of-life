@@ -7,16 +7,23 @@ pipeline {
                                   branch: 'master'
                     
                              }
-                       }
-                stage('package') {
+                       } 
+                      stage('javapath') {
                        steps {
                              sh '''
                                    export PATH="/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin:$PATH"
-                                   java -version
-                                   mvn package
+                                   java -version        
                                 '''
                              }
-                      }
+                      } 
+                stage('sonar'){
+                       steps{
+                             withSonarQubeEnv ('sonarabhi'){
+                             sh 'mvn clean package sonar: sonarabhi'   
+                             }
+                            }
+                     }     
+                
                 }
          }
 
